@@ -557,7 +557,7 @@ See [`LICENSE`](LICENSE) for the full license text.
 
 ## Author
 
-**Victor Granado**
+**Victor STafussi Granado**
 
 Computer Engineering / Embedded Systems
 
