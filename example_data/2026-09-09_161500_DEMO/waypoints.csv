@@ -1,0 +1,4 @@
+waypoint_id,source_sample_id,timestamp_utc,elapsed_ms,latitude_deg,longitude_deg,gps_altitude_m,heading_deg,label,note
+WP001,62,2026-09-09T22:16:02.000Z,62000,43.823577,-111.792066,1484.72,34.29,Trail Entry,Start of field segment
+WP002,164,2026-09-09T22:17:44.000Z,164000,43.824162,-111.791847,1482.72,4.85,Survey Point,Fabricated environmental sample location
+WP003,254,2026-09-09T22:19:14.000Z,254000,43.824666,-111.791902,1485.16,353.69,Return Marker,Reference point before return

@@ -1,0 +1,3 @@
+waypoint_id,source_sample_id,timestamp_utc,elapsed_ms,latitude_deg,longitude_deg,gps_altitude_m,heading_deg,label,note
+WP001,2,2026-09-09T05:15:32.000Z,2000,43.821559,-111.785387,1483.8,298.0,Waypoint 1,Initial test point
+WP002,6,2026-09-09T05:15:36.000Z,6000,43.821610,-111.785316,1485.1,302.0,Survey Point,Second test point

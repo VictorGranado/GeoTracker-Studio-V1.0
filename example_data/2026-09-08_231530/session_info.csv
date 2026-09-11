@@ -1,0 +1,9 @@
+key,value
+schema_version,1.0
+session_id,2026-09-08_231530
+device_name,GeoTracker v1.0
+firmware_version,1.0
+start_time_utc,2026-09-09T05:15:30.000Z
+log_interval_ms,1000
+coordinate_system,WGS84
+units,SI
