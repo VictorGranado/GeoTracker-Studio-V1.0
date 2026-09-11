@@ -175,11 +175,6 @@ GPS outages are preserved as separate route segments.
 
 ## Screenshots
 
-> Add screenshots from the current v1.0 build here.
-
-Suggested layout:
-
-
 ### Overview
 <img src="Screenshot 2026-09-11 011932.png">
 
@@ -192,7 +187,7 @@ Suggested layout:
 ### 3D Route
 <img src="Screenshot 2026-09-11 012047.png">
 
-### Google Earth Export
+### KML / GPX Export
 <img src="Screenshot 2026-09-11 012109.png">
 
 ---
