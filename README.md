@@ -179,22 +179,21 @@ GPS outages are preserved as separate route segments.
 
 Suggested layout:
 
-```markdown
+
 ### Overview
-![Overview](docs/images/overview.png)
+<img src="assets/geotracker_studio.png">
 
 ### 2D Route + OpenStreetMap
-![2D Map](docs/images/2d-map.png)
+<img src="assets/geotracker_studio.png">
 
 ### Data Graphs
-![Data Graphs](docs/images/data-graphs.png)
+<img src="assets/geotracker_studio.png">
 
 ### 3D Route
-![3D Route](docs/images/3d-route.png)
+<img src="assets/geotracker_studio.png">
 
 ### Google Earth Export
-![KML Export](docs/images/google-earth.png)
-```
+<img src="assets/geotracker_studio.png">
 
 ---
 
