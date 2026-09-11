@@ -181,19 +181,19 @@ Suggested layout:
 
 
 ### Overview
-<img src="assets/geotracker_studio.png">
+<img src="Screenshot 2026-09-11 011932.png">
 
 ### 2D Route + OpenStreetMap
-<img src="assets/geotracker_studio.png">
+<img src="Screenshot 2026-09-11 011957.png">
 
 ### Data Graphs
-<img src="assets/geotracker_studio.png">
+<img src="Screenshot 2026-09-11 012011.png">
 
 ### 3D Route
-<img src="assets/geotracker_studio.png">
+<img src="Screenshot 2026-09-11 012047.png">
 
 ### Google Earth Export
-<img src="assets/geotracker_studio.png">
+<img src="Screenshot 2026-09-11 012109.png">
 
 ---
 
