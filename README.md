@@ -1,85 +1,297 @@
-# GeoTracker Studio v1.0 — Phase 2H Final Release Polish
+# GeoTracker Studio v1.0
 
-This release candidate builds on the verified packaged Phase 2G.1 application and adds the final usability and distribution layer.
+<p align="center">
+  <img src="assets/geotracker_studio.png" alt="GeoTracker Studio logo" width="120">
+</p>
 
-## New in Phase 2H
+<p align="center">
+  <strong>Desktop visualization and analysis software for GeoTracker v1.0 field data.</strong>
+</p>
 
-- Clearly marked **DEMO DATA** state in the Overview page and sidebar.
-- Demo-data banner with one-click access to open a real session.
-- Consistent vector icons for every sidebar workspace page.
-- Standard **File** and **Help** menus.
-- **Ctrl+O** session-open shortcut.
-- Branded **About GeoTracker Studio** dialog with version and map attribution.
-- Windows installer definition for **Inno Setup 6**.
-- `Build_Installer.ps1` and one-command `Build_Release.ps1` release scripts.
-- Quick user guide and release checklist.
-
-## Build the portable Windows application
-
-```powershell
-C:\gtvenv\Scripts\Activate.ps1
-.\Build_Windows.ps1
-```
-
-Portable output:
-
-```text
-dist\GeoTracker Studio v1.0\GeoTracker Studio.exe
-```
-
-## Build the installer
-
-After the portable application has been built, install **Inno Setup 6** and run:
-
-```powershell
-.\Build_Installer.ps1
-```
-
-Installer output:
-
-```text
-installer_output\GeoTracker Studio v1.0 Setup.exe
-```
-
-Or run `Build_Release.ps1` to perform both stages in sequence.
-
-See `USER_GUIDE.md` and `RELEASE_CHECKLIST.md` for end-user and release-validation instructions.
+<p align="center">
+  Import GeoTracker sessions, reconstruct GPS routes, inspect synchronized sensor data,
+  visualize routes in 2D and 3D, overlay OpenStreetMap imagery, and export to KML/GPX.
+</p>
 
 ---
 
-# GeoTracker Studio v1.0 — Phase 2G Release Candidate
+## Overview
 
-This build refines the visual identity and prepares GeoTracker Studio for a normal Windows distribution.
+**GeoTracker Studio** is the desktop companion application for **GeoTracker v1.0**, an ESP32-based field survey and mapping device.
 
-## Visual identity
+GeoTracker v1.0 collects GPS, environmental, magnetic, and motion/orientation data in the field and stores each recording session on a MicroSD card. GeoTracker Studio imports those recorded sessions and turns the raw data into interactive maps, graphs, route visualizations, statistics, waypoints, events, and exportable geographic files.
 
-- New GeoTracker route/pin application mark.
-- Refined sidebar wordmark with `Geo` accent and `Tracker` neutral text.
-- Separate STUDIO label and version badge.
-- Windows/window icon assets in `assets/`.
-- Cleaner sidebar section hierarchy and spacing.
-
-## Release packaging
-
-The application is configured for a **PyInstaller onedir build**. The release build keeps Qt, OpenGL, pandas and visualization dependencies beside the executable for reliability.
-
-### Build on Windows
-
-With the GeoTracker virtual environment active, either double-click:
+The project is designed around a simple division of responsibility:
 
 ```text
-Build_Windows.bat
+GeoTracker v1.0
+Collects and logs field data
+        ↓
+      CSV
+        ↓
+GeoTracker Studio
+Visualizes, analyzes, and exports it
 ```
 
-or run:
+GeoTracker Studio is primarily a **post-mission analysis application**. It does not require cloud storage, user accounts, or a live connection to the GeoTracker device.
 
-```powershell
-.\Build_Windows.ps1
+---
+
+## Features
+
+### Session import and validation
+
+- Import complete GeoTracker recording folders
+- Validate the GeoTracker v1.0 data schema
+- Detect missing or invalid data
+- Review session metadata and validation status
+- Bundled fabricated demo session for exploring the UI before loading real data
+
+### Overview dashboard
+
+- Session duration
+- Distance traveled
+- Average and maximum speed
+- GPS altitude range
+- GPS sample statistics
+- Temperature, humidity, and pressure summaries
+- Waypoint and event counts
+- Recent sample preview
+
+### 2D route visualization
+
+- Reconstruct recorded GPS routes
+- Start and end markers
+- Waypoint and event markers
+- Pan, zoom, and fit-to-route controls
+- Local meter-based projection for accurate local geometry
+- Click/hover sample inspection
+- GPS gaps preserved rather than falsely connected
+
+### Sensor-colored route overlays
+
+The route can be colored by recorded measurements such as:
+
+- Temperature
+- GPS altitude
+- Speed
+- Humidity
+- Pressure
+- Heading
+- Magnetic field strength
+- GPS quality / HDOP
+
+### In-app OpenStreetMap basemap
+
+- Optional OpenStreetMap layer beneath the 2D route
+- Adjustable basemap opacity
+- Local tile caching
+- No map service required for core offline analysis
+- Route and sensor overlays remain fully interactive above the map
+
+### Interactive data graphs
+
+Two synchronized graph panels can display:
+
+- GPS altitude
+- Speed
+- Satellite count
+- Temperature
+- Humidity
+- Pressure
+- Pressure altitude
+- Heading
+- Magnetic field strength
+- Pitch and roll
+- Accelerometer X / Y / Z
+- Gyroscope X / Y / Z
+
+Horizontal axes can be switched between:
+
+- Elapsed time
+- Distance traveled
+- Sample ID
+
+### Synchronized inspection
+
+GeoTracker Studio uses `sample_id` as the common link between all visualizations.
+
+Selecting a point in one view updates the others:
+
+```text
+2D Map
+   ↕
+Data Graphs
+   ↕
+3D Route
+   ↕
+Selected sensor sample
 ```
 
-The script installs the build dependency, runs the complete test suite, and only packages the application if tests pass.
+This makes it possible to answer:
 
-Output:
+> What did GeoTracker measure, when did it happen, and where did it happen?
+
+### 3D route viewer
+
+- Local X/Y coordinates in meters
+- GPS altitude as Z
+- Vertical exaggeration: 1×, 2×, 5×, 10×
+- Sensor-colored 3D route overlays
+- Start, end, and waypoint markers
+- Orbit, zoom, and pan controls
+- Top and perspective camera views
+- Optional OpenStreetMap ground plane
+- Synchronized sample selection with the 2D map and graphs
+
+### Waypoints and events
+
+- Dedicated waypoint table
+- Dedicated event table
+- Session start/end events
+- User-created waypoints
+- GPS fix events
+- Other GeoTracker-generated event types
+
+### KML and GPX export
+
+GeoTracker Studio can export:
+
+- Route tracks
+- Waypoints
+- Start/end locations
+- Geolocated events
+- GPS altitude
+- UTC timestamps
+
+Supported formats:
+
+- **KML** — Google Earth and compatible GIS software
+- **GPX 1.1** — GPS/navigation and mapping software
+
+GPS outages are preserved as separate route segments.
+
+---
+
+## Screenshots
+
+> Add screenshots from the current v1.0 build here.
+
+Suggested layout:
+
+```markdown
+### Overview
+![Overview](docs/images/overview.png)
+
+### 2D Route + OpenStreetMap
+![2D Map](docs/images/2d-map.png)
+
+### Data Graphs
+![Data Graphs](docs/images/data-graphs.png)
+
+### 3D Route
+![3D Route](docs/images/3d-route.png)
+
+### Google Earth Export
+![KML Export](docs/images/google-earth.png)
+```
+
+---
+
+## GeoTracker data model
+
+A GeoTracker recording is stored as one session folder:
+
+```text
+session/
+├── session_info.csv
+├── samples.csv
+├── waypoints.csv
+└── events.csv
+```
+
+### `session_info.csv`
+
+Stores metadata such as:
+
+- schema version
+- session ID
+- device name
+- firmware version
+- UTC start time
+- logging interval
+- coordinate system
+- unit system
+
+### `samples.csv`
+
+Contains synchronized measurements from:
+
+**NEO-M8N GPS**
+- UTC timestamp
+- latitude / longitude
+- GPS altitude
+- speed
+- course
+- satellites
+- fix state
+- HDOP / PDOP / VDOP
+
+**BME280**
+- temperature
+- humidity
+- atmospheric pressure
+- estimated pressure altitude
+
+**BMM150**
+- magnetic X / Y / Z
+- field magnitude
+- heading
+
+**MPU-6050**
+- acceleration X / Y / Z
+- gyroscope X / Y / Z
+- pitch
+- roll
+
+### `waypoints.csv`
+
+Stores user-created geographic waypoints and links them back to the source sample.
+
+### `events.csv`
+
+Stores session and device events such as:
+
+- `SESSION_START`
+- `SESSION_END`
+- `GPS_FIX_ACQUIRED`
+- `GPS_FIX_LOST`
+- `WAYPOINT_CREATED`
+- user-defined marks and device events
+
+---
+
+## Installation
+
+### Windows installer
+
+The recommended way to install GeoTracker Studio is with:
+
+```text
+GeoTracker Studio v1.0 Setup.exe
+```
+
+The installer creates:
+
+- a Start Menu entry
+- an optional desktop shortcut
+- the GeoTracker Studio application entry in Windows Installed Apps
+
+No Python installation is required for the packaged release.
+
+### Portable Windows build
+
+A portable build can also be generated with PyInstaller:
 
 ```text
 dist/
@@ -88,150 +300,271 @@ dist/
     └── _internal/
 ```
 
-The packaged app stores writable demo data and map cache under the user's local application-data directory rather than modifying the installation folder.
-
-## Source launch
-
-```powershell
-python -m geotracker_studio.app
-```
-
+Keep the executable and `_internal` folder together.
 
 ---
 
-# GeoTracker Studio — Phase 2F.1 In-App Basemaps
+## Using GeoTracker Studio
 
-Phase 2F adds **georeferenced map layers directly inside GeoTracker Studio** while preserving all Phase 2E functionality: 2D/3D visualization, synchronized sample selection, sensor overlays, and KML/GPX export.
-
-## New in Phase 2F
-
-### 2D Map basemap
-The **2D Map** page now includes a **Map layer** selector:
-
-- No basemap
-- OpenStreetMap
-
-When OpenStreetMap is selected, Studio downloads only the small set of raster tiles required to cover the currently loaded route, composites them into one georeferenced map image, and places that image beneath the existing route and sensor overlays.
-
-The existing local-meter projection is preserved, so:
-
-- route shape remains metrically correct for local field sessions;
-- sensor-colored route overlays remain available;
-- start/end, waypoints, and events stay synchronized;
-- hover/click sample inspection continues to work;
-- map opacity can be adjusted independently.
-
-### 3D Route basemap
-The **3D Route** page has the same map-layer selector.
-
-OpenStreetMap is rendered as a **georeferenced ground image plane** beneath the 3D GPS/altitude path. The route still uses GPS altitude for Z and retains:
-
-- vertical exaggeration;
-- sensor-colored overlays;
-- start/end and waypoint markers;
-- camera orbit/zoom/pan;
-- top/perspective views;
-- synchronized sample selection.
-
-This is a map-under-3D-route view, not yet a terrain-elevation mesh. A future terrain mode can drape the same map imagery over DEM/elevation data.
-
-## Tile behavior
-
-The OpenStreetMap integration is intentionally conservative:
-
-- one zoom level is selected for the currently viewed session;
-- at most 16 tiles are requested for the route mosaic;
-- previously viewed tiles are cached locally and reused;
-- no city/region prefetch or offline-download feature is implemented;
-- a GeoTracker Studio-specific HTTP User-Agent is sent;
-- OpenStreetMap attribution stays visible in the application.
-
-Typical Windows cache location:
+1. Launch **GeoTracker Studio**.
+2. Explore the bundled **DEMO DATA** session or open a real GeoTracker session.
+3. Select **File → Open session…** or press `Ctrl+O`.
+4. Choose a folder containing:
 
 ```text
-%LOCALAPPDATA%\GeoTrackerStudio\tile_cache\
+session_info.csv
+samples.csv
+waypoints.csv
+events.csv
 ```
 
-The first map load requires an internet connection. If map tiles cannot be loaded, the normal GeoTracker route visualization remains usable.
+5. Use the sidebar to move between:
+   - Overview
+   - 2D Map
+   - Data Graphs
+   - Waypoints & Events
+   - 3D Route
+   - Export
 
-## Phase 2E features retained
+OpenStreetMap is optional. The first map load for a new area requires internet access; previously viewed map tiles are cached locally.
 
-The **Export** page still provides:
+On Windows, writable application data and cached tiles are stored under:
 
-- KML export;
-- GPX 1.1 export;
-- optional altitude/timestamps;
-- optional waypoints/events/start/end markers;
-- preservation of GPS gaps as separate track segments.
+```text
+%LOCALAPPDATA%\GeoTrackerStudio\
+```
 
-## Run
+---
 
-Use the same virtual environment as the previous phases:
+## Running from source
+
+### Requirements
+
+- Python 3.11 recommended
+- Windows 10/11 is the primary tested platform
+
+Install dependencies:
 
 ```powershell
-C:\gtvenv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
+```
+
+Run the automated tests:
+
+```powershell
 python -m pytest -q
+```
+
+Launch GeoTracker Studio:
+
+```powershell
 python -m geotracker_studio.app
 ```
 
-Phase 2F adds **no new Python dependency**. Basemap networking uses Python's standard library and image rendering uses the existing PySide6/pyqtgraph stack.
+For development on Windows, a virtual environment is recommended.
 
-Expected automated-test result:
+Example:
 
-```text
-25 passed
+```powershell
+python -m venv C:\gtvenv
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+C:\gtvenv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m geotracker_studio.app
 ```
 
-## Recommended validation
+---
 
-1. Launch GeoTracker Studio.
-2. Open **2D Map**.
-3. Change **Map layer** from `No basemap` to `OpenStreetMap`.
-4. Confirm roads/buildings appear beneath the fabricated route.
-5. Adjust **Map opacity**.
-6. Switch sensor route overlays and verify they remain aligned to the map.
-7. Open **3D Route**.
-8. Select `OpenStreetMap` there as well.
-9. Confirm the map appears as the ground plane under the elevated route.
-10. Test 1×, 5×, and 10× vertical scales plus Top/Perspective views.
-11. Switch back to 2D; the same tiles should load from the local cache.
+## Building the Windows release
 
-## Project status
+### Portable application
 
-```text
-Overview                    complete
-2D route analysis           complete
-2D sensor overlays          complete
-Data Graphs                 complete
-2D ↔ Graph synchronization  complete
-3D Route                    complete
-3D ↔ 2D ↔ Graph sync        complete
-KML / GPX export            complete
-2D in-app basemap           complete
-3D in-app basemap plane     complete
+With the development environment active:
 
-Release polish / packaging  next
-Real GeoTracker validation  later integration step
-Optional terrain DEM mode   future enhancement
+```powershell
+.\Build_Windows.ps1
 ```
 
+Output:
 
-## Phase 2F.1 layout patch
+```text
+dist\GeoTracker Studio v1.0\GeoTracker Studio.exe
+```
 
-- Split 2D/3D map controls into responsive rows.
-- Prevent option boxes from colliding at normal window widths.
-- Added compact widths for map, route-overlay, and vertical-scale selectors.
-- Preserves all Phase 2F basemap functionality.
+The build process uses PyInstaller in **onedir** mode for reliable Qt, OpenGL, pandas, and visualization-library packaging.
 
-## Phase 2G.1 packaging fix
+### Installer
 
-The Windows build now uses `geotracker_studio_launcher.py` as the PyInstaller
-entry point. The launcher imports `geotracker_studio.app` as a package, which
-preserves Python package context and prevents the Windows executable error:
+GeoTracker Studio uses **Inno Setup 6** for the Windows installer.
 
-`ImportError: attempted relative import with no known parent package`
+After building the portable application:
 
-The build script also removes old `build/` and `dist/` directories before
-creating a new release, so a stale executable cannot be mistaken for the
-patched build.
+```powershell
+.\Build_Installer.ps1
+```
+
+or compile directly with the Inno Setup compiler:
+
+```powershell
+& "$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe" ".\installer\GeoTrackerStudio.iss"
+```
+
+Output:
+
+```text
+installer_output\GeoTracker Studio v1.0 Setup.exe
+```
+
+---
+
+## Technology stack
+
+- **Python 3**
+- **PySide6 / Qt** — desktop interface
+- **pandas** — CSV parsing and session data model
+- **pyqtgraph** — interactive 2D plotting
+- **PyOpenGL / pyqtgraph.opengl** — 3D route visualization
+- **OpenStreetMap** — optional geographic basemap imagery
+- **PyInstaller** — Windows application packaging
+- **Inno Setup 6** — Windows installer
+- Python standard library XML tools — KML / GPX generation
+
+---
+
+## Project structure
+
+```text
+GeoTracker-Studio/
+├── geotracker_studio/
+│   ├── app.py
+│   ├── parser.py
+│   ├── models.py
+│   ├── schema.py
+│   ├── validation.py
+│   ├── statistics.py
+│   ├── export.py
+│   ├── demo_data.py
+│   └── ...
+│
+├── assets/
+│   └── geotracker_studio.png
+│
+├── installer/
+│   └── GeoTrackerStudio.iss
+│
+├── tests/
+│
+├── GeoTrackerStudio.spec
+├── Build_Windows.ps1
+├── Build_Installer.ps1
+├── requirements.txt
+├── USER_GUIDE.md
+├── RELEASE_CHECKLIST.md
+└── README.md
+```
+
+---
+
+## Project relationship
+
+GeoTracker Studio is part of the broader GeoTracker ecosystem:
+
+```text
+┌────────────────────────────┐
+│      GeoTracker v1.0       │
+│                            │
+│  ESP32-WROOM-DA            │
+│  NEO-M8N GPS               │
+│  BME280                    │
+│  BMM150                    │
+│  MPU-6050                  │
+│  MicroSD                   │
+│                            │
+│  Field acquisition         │
+└──────────────┬─────────────┘
+               │
+               │ CSV session
+               ▼
+┌────────────────────────────┐
+│   GeoTracker Studio v1.0   │
+│                            │
+│  Session validation        │
+│  2D / 3D visualization    │
+│  Sensor analysis           │
+│  OpenStreetMap             │
+│  Waypoints / Events        │
+│  KML / GPX export          │
+│                            │
+│  Post-mission analysis     │
+└────────────────────────────┘
+```
+
+---
+
+## Current status
+
+GeoTracker Studio v1.0 has been validated as a packaged Windows application.
+
+Verified functionality includes:
+
+- Windows installer
+- Start Menu and desktop launch
+- branded application icon
+- console-free packaged launch
+- demo session
+- session import
+- 2D route visualization
+- sensor overlays
+- synchronized graphs
+- 3D route visualization
+- OpenStreetMap layers
+- KML / GPX export
+- About dialog
+- uninstall registration
+
+The remaining field-validation step is testing the complete workflow against real GeoTracker v1.0 MicroSD recordings and refining the parser/visualizations for real-world GPS and sensor behavior.
+
+---
+
+## Planned improvements
+
+Possible future additions include:
+
+- real GeoTracker field-session validation and tuning
+- terrain/DEM-based 3D surface mode
+- offline map packages
+- session comparison
+- additional survey overlays
+- custom event annotations
+- live serial/Wi-Fi telemetry
+- automatic GeoTracker device detection
+
+These are future enhancements and are not required for the v1.0 post-processing workflow.
+
+---
+
+## OpenStreetMap attribution
+
+GeoTracker Studio uses optional map imagery from **OpenStreetMap**.
+
+Map data © OpenStreetMap contributors.
+
+OpenStreetMap imagery is only requested when the user explicitly enables the basemap. GeoTracker Studio caches previously viewed tiles and does not implement bulk map prefetching.
+
+---
+
+## License
+
+This project is licensed under the **MIT License**.
+
+See [`LICENSE`](LICENSE) for the full license text.
+
+---
+
+## Author
+
+**Victor Granado**
+
+Computer Engineering / Embedded Systems
+
+GeoTracker Studio was developed as the desktop visualization and analysis companion for the GeoTracker v1.0 embedded field-mapping platform.
