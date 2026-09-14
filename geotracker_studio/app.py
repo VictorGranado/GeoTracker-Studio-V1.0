@@ -13,8 +13,8 @@ from .resources import resource_path, user_data_root
 def main() -> int:
     app = QApplication(sys.argv)
     app.setApplicationName('GeoTracker Studio')
-    app.setApplicationDisplayName('GeoTracker Studio v1.0')
-    app.setApplicationVersion('1.0.0')
+    app.setApplicationDisplayName('GeoTracker Studio v1.0.1')
+    app.setApplicationVersion('1.0.1')
     app.setOrganizationName('GeoTracker')
 
     icon_path = resource_path('assets/geotracker_studio.png')

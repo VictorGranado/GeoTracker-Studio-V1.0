@@ -2,7 +2,7 @@ $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
 
 Write-Host ''
-Write-Host 'GeoTracker Studio v1.0 - Windows Release Build' -ForegroundColor Cyan
+Write-Host 'GeoTracker Studio v1.0.1 - Windows Release Build' -ForegroundColor Cyan
 Write-Host '------------------------------------------------'
 
 python -m pip install -r requirements.txt
@@ -19,4 +19,4 @@ if ($LASTEXITCODE -ne 0) { throw 'PyInstaller build failed.' }
 
 Write-Host ''
 Write-Host 'Build complete:' -ForegroundColor Green
-Write-Host (Join-Path $PSScriptRoot 'dist\GeoTracker Studio v1.0\GeoTracker Studio.exe')
+Write-Host (Join-Path $PSScriptRoot 'dist\GeoTracker Studio v1.0.1\GeoTracker Studio.exe')

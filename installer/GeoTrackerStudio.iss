@@ -1,5 +1,5 @@
 #define MyAppName "GeoTracker Studio"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.0.1"
 #define MyAppPublisher "GeoTracker"
 #define MyAppExeName "GeoTracker Studio.exe"
 
@@ -13,7 +13,7 @@ DefaultGroupName=GeoTracker Studio
 DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 OutputDir=..\installer_output
-OutputBaseFilename=GeoTracker Studio v1.0 Setup
+OutputBaseFilename=GeoTracker Studio v1.0.1 Setup
 SetupIconFile=..\assets\geotracker_studio.ico
 UninstallDisplayIcon={app}\{#MyAppExeName}
 Compression=lzma2
@@ -26,7 +26,7 @@ ArchitecturesInstallIn64BitMode=x64compatible
 Name: "desktopicon"; Description: "Create a &desktop shortcut"; GroupDescription: "Additional shortcuts:"; Flags: unchecked
 
 [Files]
-Source: "..\dist\GeoTracker Studio v1.0\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\dist\GeoTracker Studio v1.0.1\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\GeoTracker Studio"; Filename: "{app}\{#MyAppExeName}"

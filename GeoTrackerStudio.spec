@@ -39,5 +39,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='GeoTracker Studio v1.0',
+    name='GeoTracker Studio v1.0.1',
 )

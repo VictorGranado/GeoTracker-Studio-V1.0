@@ -549,6 +549,15 @@ class MainWindow(QMainWindow):
         for i, btn in enumerate(self.nav_buttons):
             btn.setChecked(i == index)
 
+        # Phase 2H2: the OpenGL 3D view can keep its previous GPU scene if a
+        # session import was interrupted by another page update.  When the user
+        # opens the 3D page, force it to bind to the current in-memory session.
+        if index == 4 and self.session is not None:
+            try:
+                self.route3d_page.set_session(self.session)
+            except Exception as exc:
+                self.statusBar().showMessage(f'3D Route refresh failed: {exc}')
+
     def open_session_dialog(self):
         directory = QFileDialog.getExistingDirectory(self, 'Open GeoTracker session folder')
         if directory:
@@ -565,6 +574,8 @@ class MainWindow(QMainWindow):
             return
 
         self.session = session
+        self.selection_controller.clear()
+
         is_demo = (
             str(session.metadata.get('firmware_version', '')).lower().endswith('-demo')
             or str(session.session_id).upper().endswith('_DEMO')
@@ -572,22 +583,44 @@ class MainWindow(QMainWindow):
         self.overview_page.set_demo_state(is_demo)
         self.session_mode_badge.setVisible(is_demo)
         self.setWindowTitle('GeoTracker Studio v1.0' + (' — Demo Session' if is_demo else ''))
-        self.overview_page.set_session(session)
-        self.map_page.set_session(session)
-        self.graphs_page.set_session(session)
-        self.waypoints_page.set_session(session)
-        self.route3d_page.set_session(session)
-        self.export_page.set_session(session)
         self.session_label.setText(f'{session.session_id}\n{len(session.samples)} samples')
 
-        self.selection_controller.clear()
+        # Phase 2H2: update pages independently. Previously, an exception in an
+        # intermediate page could leave later pages, especially Waypoints/Events
+        # and 3D Route, showing the old demo session even after Overview/2D Map
+        # had accepted the real import.
+        page_errors = []
+        page_updates = [
+            ('Overview', self.overview_page.set_session),
+            ('2D Map', self.map_page.set_session),
+            ('Data Graphs', self.graphs_page.set_session),
+            ('Waypoints & Events', self.waypoints_page.set_session),
+            ('3D Route', self.route3d_page.set_session),
+            ('Export', self.export_page.set_session),
+        ]
+        for page_name, update in page_updates:
+            try:
+                update(session)
+            except Exception as exc:
+                page_errors.append(f'{page_name}: {exc}')
+
         valid = session.gps_updates
         if not valid.empty:
             self.selection_controller.select(int(valid.iloc[0]['sample_id']), force=True)
         elif not session.samples.empty:
             self.selection_controller.select(int(session.samples.iloc[0]['sample_id']), force=True)
 
-        if session.validation.ok:
+        if page_errors:
+            self.statusBar().showMessage(
+                f'Loaded {session.session_id}, but {len(page_errors)} page update(s) failed.'
+            )
+            QMessageBox.warning(
+                self,
+                'Session partially loaded',
+                'The session data loaded, but these page(s) did not refresh correctly:\n\n'
+                + '\n'.join(page_errors)
+            )
+        elif session.validation.ok:
             demo_note = ' · DEMO DATA' if is_demo else ''
             self.statusBar().showMessage(
                 f'Loaded {session.session_id} · {len(session.samples)} samples · validation passed{demo_note}'

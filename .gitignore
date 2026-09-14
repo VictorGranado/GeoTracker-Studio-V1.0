@@ -1,31 +1,35 @@
-# Python cache
+# Python
 __pycache__/
-*.py[cod]
+*.pyc
 .pytest_cache/
 
-# Virtual environments
-venv/
-.venv/
-env/
-gtvenv/
-
-# Build output
+# Build artifacts
 build/
 dist/
 installer_output/
 
-# Packaging
-*.egg-info/
+# Local environments
+.venv/
+venv/
+gtvenv/
 
-# Application-generated files
-tile_cache/
-*.log
-
-# IDE
+# OS/editor
+.DS_Store
+Thumbs.db
 .vscode/
 .idea/
 
-# Windows / macOS
-Thumbs.db
-desktop.ini
-.DS_Store
+# Build artifacts
+build/
+dist/
+installer_output/
+
+# Python cache
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Local environments
+.venv/
+venv/
+gtvenv/

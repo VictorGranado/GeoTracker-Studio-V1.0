@@ -905,10 +905,18 @@ class Route3DPage(QWidget):
         self.controller.sampleSelected.connect(self._selection_changed)
 
     def set_session(self, session):
+        # Fully detach the old OpenGL scene before binding a new session. This
+        # prevents the demo route/basemap from remaining visible after importing
+        # a real GeoTracker session.
+        self._clear_scene()
+        self._basemap_raster = None
+        self.map_attribution.setText('Basemap off')
+
         self.session = session
         self.route = route_3d_data(session.samples)
         self.sample_slider.blockSignals(True)
         self.sample_slider.setMaximum(max(len(session.samples) - 1, 0))
+        self.sample_slider.setValue(0)
         self.sample_slider.blockSignals(False)
 
         valid_count = int(self.route.valid.sum())
@@ -923,9 +931,11 @@ class Route3DPage(QWidget):
         else:
             self.route_status.setText('No valid GPS altitude data')
 
-        self._render_scene()
         if self.basemap_combo.currentText() != 'No basemap':
             self._load_basemap()
+        else:
+            self._render_scene()
+
         self.fit_view()
         if self.controller.sample_id is not None:
             self._selection_changed(self.controller.sample_id)

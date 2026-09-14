@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop'
 Set-Location $PSScriptRoot
 
-$distExe = Join-Path $PSScriptRoot 'dist\GeoTracker Studio v1.0\GeoTracker Studio.exe'
+$distExe = Join-Path $PSScriptRoot 'dist\GeoTracker Studio v1.0.1\GeoTracker Studio.exe'
 if (-not (Test-Path $distExe)) {
     throw 'Windows app build not found. Run .\Build_Windows.ps1 first.'
 }
@@ -21,7 +21,7 @@ function Find-InnoSetupCompiler {
     ) | Where-Object { $_ -and (Test-Path $_) }
 
     if ($commonCandidates) {
-        return $commonCandidates
+        return @($commonCandidates)[0]
     }
 
     # 3) Ask Windows where Inno Setup was installed.
@@ -62,7 +62,7 @@ if (-not $iscc) {
 }
 
 Write-Host ''
-Write-Host 'GeoTracker Studio v1.0 - Installer Build' -ForegroundColor Cyan
+Write-Host 'GeoTracker Studio v1.0.1 - Installer Build' -ForegroundColor Cyan
 Write-Host '----------------------------------------'
 Write-Host "Using Inno Setup compiler: $iscc" -ForegroundColor DarkGray
 
@@ -71,4 +71,4 @@ if ($LASTEXITCODE -ne 0) { throw 'Installer build failed.' }
 
 Write-Host ''
 Write-Host 'Installer complete:' -ForegroundColor Green
-Write-Host (Join-Path $PSScriptRoot 'installer_output\GeoTracker Studio v1.0 Setup.exe')
+Write-Host (Join-Path $PSScriptRoot 'installer_output\GeoTracker Studio v1.0.1 Setup.exe')

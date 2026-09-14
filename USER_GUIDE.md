@@ -1,8 +1,8 @@
-# GeoTracker Studio v1.0 — Quick User Guide
+# GeoTracker Studio v1.0.1 — Quick User Guide
 
 ## Start
 
-Launch **GeoTracker Studio.exe** from the portable release folder, or install it using **GeoTracker Studio v1.0 Setup.exe**.
+Launch **GeoTracker Studio.exe** from the portable release folder, or install it using **GeoTracker Studio v1.0.1 Setup.exe**.
 
 The application starts with a clearly marked **DEMO DATA** session so the interface can be explored before real GeoTracker logs are available.
 
